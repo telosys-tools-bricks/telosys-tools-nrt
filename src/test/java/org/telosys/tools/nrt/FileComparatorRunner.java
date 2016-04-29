@@ -2,10 +2,10 @@ package org.telosys.tools.nrt;
 
 import java.io.File;
 
-import org.telosys.tools.api.TestsEnv;
+import junit.tests.util.nrt.TestsEnv;
+
 import org.telosys.tools.commons.TelosysToolsException;
 import org.telosys.tools.generator.GeneratorException;
-import org.telosys.tools.nrt.FileComparator;
 
 public class FileComparatorRunner {
 

@@ -2,22 +2,27 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>telosys-tools-nrt</name>
-	<artifactId>telosys-tools-nrt</artifactId>
-	
-	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>org.telosys.tools</groupId>
+    <parent>  <!-- Parent pom is just used for inheritance -->
+        <groupId>org.telosys</groupId>
         <artifactId>telosys-tools-parent</artifactId>
         <version>3.0.0</version>
         <relativePath>../telosys-tools-parent/pom.xml</relativePath>
     </parent>
 
+	<name>telosys-tools-nrt</name>
+	<artifactId>telosys-tools-nrt</artifactId>
+	
+	<packaging>jar</packaging>
+	
+	<properties>
+		<skip-license>true</skip-license> <!-- force skip license checking to be runnable directly (not from parent pom ) -->
+	</properties>
+  
 	<dependencies>
 		<!-- For COMPILATION -->
 		<dependency>
-			<groupId>org.telosys.tools</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>telosys-tools-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
