@@ -10,8 +10,6 @@ import org.telosys.tools.commons.cfg.TelosysToolsCfg;
 import org.telosys.tools.generator.GeneratorException;
 import org.telosys.tools.generator.task.GenerationTaskResult;
 import org.telosys.tools.generic.model.Model;
-import org.telosys.tools.nrt.FileComparator;
-import org.telosys.tools.nrt.LineComparatorForGeneratedFiles;
 
 public class TelosysGeneratorLauncher {
 	
