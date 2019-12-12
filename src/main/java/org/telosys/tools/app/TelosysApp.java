@@ -8,7 +8,6 @@ import org.telosys.tools.commons.DirUtil;
 import org.telosys.tools.commons.FileUtil;
 import org.telosys.tools.commons.TelosysToolsException;
 import org.telosys.tools.commons.cfg.TelosysToolsCfg;
-import org.telosys.tools.generator.GeneratorException;
 import org.telosys.tools.generator.task.GenerationTaskResult;
 import org.telosys.tools.generic.model.Model;
 import org.telosys.tools.nrt.FileComparator;
@@ -30,7 +29,7 @@ public class TelosysApp {
 		LineComparatorForGeneratedFiles lineComparator = new LineComparatorForGeneratedFiles();
 		FileComparator fileComparator = new FileComparator(
 				new File(refFileName), new File(newFileName), lineComparator);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if ( fileComparator.compare(sb) != 0 ) {
 			System.out.println("DIFFERENT : ");
 			System.out.println(sb);
@@ -40,7 +39,7 @@ public class TelosysApp {
 		}
 	}
 	
-	public static void main(String[] args) throws TelosysToolsException, GeneratorException {
+	public static void main(String[] args) throws TelosysToolsException {
 		
 		TelosysProject telosysProject = new TelosysProject(getProjectAbsolutePath("basic-templates-TT210"));
 		
@@ -65,6 +64,7 @@ public class TelosysApp {
 		
 		List<String> files = DirUtil.getDirectoryFiles(destinationFolder, true);
 		System.out.println(files.size() + " file(s) found in the directory ");
+		
 		System.out.println("Comparison...");
 		for ( String generatedFileName : files ) {
 			System.out.println("----- ");

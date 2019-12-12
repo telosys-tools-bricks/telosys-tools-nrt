@@ -8,7 +8,6 @@ import org.telosys.tools.commons.DirUtil;
 import org.telosys.tools.commons.FileUtil;
 import org.telosys.tools.commons.TelosysToolsException;
 import org.telosys.tools.commons.cfg.TelosysToolsCfg;
-import org.telosys.tools.generator.GeneratorException;
 import org.telosys.tools.generator.task.GenerationTaskResult;
 import org.telosys.tools.generic.model.Model;
 
@@ -29,7 +28,7 @@ public class TelosysGeneratorNRT {
 	}
 	
 	public int generateAndCompare(TelosysProject telosysProject, String modelName, String bundleName) 
-			throws TelosysToolsException, GeneratorException {
+			throws TelosysToolsException {
 		int differencesCount = 0 ;
 		logInfo("=======================================================================================");
 		logInfo("Generate and compare : model '" + modelName + "', bundle '" + bundleName +"'");
@@ -65,7 +64,7 @@ public class TelosysGeneratorNRT {
 			logDebug("   ( " + relativeFileName + " )");
 			String referenceFileName = FileUtil.buildFilePath(telosysToolsCfg.getProjectAbsolutePath(), relativeFileName);
 			logDebug(" . " + referenceFileName );
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			int differences = compare(referenceFileName, generatedFileName, sb) ;
 			if ( differences != 0 ) {
 				logInfo(" . " + generatedFileName + " : " + differences + " difference(s)");
@@ -83,7 +82,7 @@ public class TelosysGeneratorNRT {
 		return FileUtil.buildFilePath(telosysProject.getProjectFolder(), generatedFilesSubFolder);
 	}
 
-	private int compare(String refFileName, String newFileName, StringBuffer sb) {
+	private int compare(String refFileName, String newFileName, StringBuilder sb) {
 		LineComparatorForGeneratedFiles lineComparator = new LineComparatorForGeneratedFiles();
 		FileComparator fileComparator = new FileComparator(
 				new File(refFileName), new File(newFileName), lineComparator);

@@ -4,9 +4,9 @@ import java.util.regex.Pattern;
 
 public class LineComparatorForGeneratedFiles implements LineComparator {
 	
-	private final static String[] patterns = {
+	private static final String[] patterns = {
 		".* Created on .* Time .*",
-		".* [Gg]enerated by Telosys Tools Generator .*",
+		".* [Gg]enerated by .*",
 		".*generator\\.version =.*",
 		".*today\\.time.*=.*",
 		".*today\\.date.*=.*",

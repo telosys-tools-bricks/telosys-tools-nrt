@@ -3,7 +3,6 @@ package org.telosys.tools.nrt;
 import org.telosys.tools.api.TelosysProject;
 import org.telosys.tools.commons.FileUtil;
 import org.telosys.tools.commons.TelosysToolsException;
-import org.telosys.tools.generator.GeneratorException;
 
 public class TelosysGeneratorNRTRunner {
 	
@@ -37,9 +36,6 @@ public class TelosysGeneratorNRTRunner {
 			differencesCount += generateAndCompare(	telosysGeneratorNRT, "front-angularjs-TT210");
 //			differencesCount += generateAndCompare(	telosysGeneratorNRT, "front-springmvc-TT210-R2");
 			
-		} catch (GeneratorException e) {
-			System.out.println("----- ((( ERROR ))) -----");
-			System.out.println("GeneratorException : " + e.getMessage());
 		} catch (TelosysToolsException e) {
 			System.out.println("----- ((( ERROR ))) -----");
 			System.out.println("TelosysToolsException : " + e.getMessage());
@@ -54,7 +50,7 @@ public class TelosysGeneratorNRTRunner {
 	}
 
 	private static int generateAndCompare(TelosysGeneratorNRT telosysGeneratorNRT, String bundleName) 
-			throws TelosysToolsException, GeneratorException {
+			throws TelosysToolsException {
 		int differencesCount = 0 ;
 		// the project name is the bundle name
 //		differencesCount += telosysGeneratorNRT.generateAndCompare(	getTelosysProject(bundleName),

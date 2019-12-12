@@ -17,23 +17,28 @@ public class FileComparator {
 		this.lineComparator = lineComparator ;
 	}
 	
-	public int compare(StringBuffer sb) {
+	/**
+	 * Launch comparison 
+	 * @param report a StringBuilder where to write the report 
+	 * @return number of differences found
+	 */
+	public int compare(StringBuilder report) {
 		if ( ! file1.exists() ) {
-			sb.append("File not found '" + file1.getAbsolutePath() +"'");
+			report.append("File not found '" + file1.getAbsolutePath() +"'");
 			return 1 ; // considered as 1 difference
 		}
 		if ( ! file2.exists() ) {
-			sb.append("File not found '" + file2.getAbsolutePath() +"'");
+			report.append("File not found '" + file2.getAbsolutePath() +"'");
 			return 1 ; // considered as 1 difference
 		}
 		try {
-			return compareLines(sb, file1, file2);
+			return compareLines(report, file1, file2);
 		} catch (IOException e) {
 			throw new RuntimeException("IOException", e);
 		}
 	}
 	
-	private int compareLines(StringBuffer sb, File file1, File file2) throws IOException {
+	private int compareLines(StringBuilder sb, File file1, File file2) throws IOException {
 		int result = 0 ;
 		BufferedReader br1 = new BufferedReader(new FileReader(file1));
 		BufferedReader br2 = new BufferedReader(new FileReader(file2));
@@ -48,7 +53,7 @@ public class FileComparator {
 		return result ;
 	}
 
-	private int compareLines(StringBuffer sb, BufferedReader br1, BufferedReader br2) throws IOException {
+	private int compareLines(StringBuilder sb, BufferedReader br1, BufferedReader br2) throws IOException {
 		int linesCount = 0 ;
 		int diffCount = 0 ;
 		String line1 ;
