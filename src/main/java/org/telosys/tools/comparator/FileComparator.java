@@ -1,4 +1,4 @@
-package org.telosys.tools.nrt;
+package org.telosys.tools.comparator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,50 +7,54 @@ import java.io.IOException;
 
 public class FileComparator {
 
-	private final File file1 ;
-	private final File file2 ;
+//	private final File file1 ;
+//	private final File file2 ;
 	private final LineComparator lineComparator ;
 	
-	public FileComparator(File file1, File file2, LineComparator lineComparator ) {
-		this.file1 = file1 ;
-		this.file2 = file2 ;
+//	public FileComparator(File file1, File file2, LineComparator lineComparator ) {
+//		this.file1 = file1 ;
+//		this.file2 = file2 ;
+//		this.lineComparator = lineComparator ;
+//	}
+	public FileComparator( LineComparator lineComparator ) {
 		this.lineComparator = lineComparator ;
 	}
 	
 	/**
-	 * Launch comparison 
-	 * @param report a StringBuilder where to write the report 
-	 * @return number of differences found
+	 * Compare file1 with file2
+	 * @param file1
+	 * @param file2
+	 * @return
 	 */
-	public int compare(StringBuilder report) {
+	public ComparisonResult compare(File file1, File file2) {
 		if ( ! file1.exists() ) {
-			report.append("File not found '" + file1.getAbsolutePath() +"'");
-			return 1 ; // considered as 1 difference
+			return new ComparisonResult(1, "File not found '" + file1.getAbsolutePath() +"'") ; // considered as 1 difference
 		}
 		if ( ! file2.exists() ) {
-			report.append("File not found '" + file2.getAbsolutePath() +"'");
-			return 1 ; // considered as 1 difference
+			return new ComparisonResult(1, "File not found '" + file2.getAbsolutePath() +"'") ; // considered as 1 difference
 		}
 		try {
-			return compareLines(report, file1, file2);
+			return compareLines(file1, file2);
 		} catch (IOException e) {
 			throw new RuntimeException("IOException", e);
 		}
 	}
 	
-	private int compareLines(StringBuilder sb, File file1, File file2) throws IOException {
-		int result = 0 ;
+	private ComparisonResult compareLines(File file1, File file2) throws IOException {
+		int nbDiff = 0 ;
+		StringBuilder sb = new StringBuilder();
+		
 		BufferedReader br1 = new BufferedReader(new FileReader(file1));
 		BufferedReader br2 = new BufferedReader(new FileReader(file2));
 		
 		try {
-			result = compareLines(sb, br1, br2);
+			nbDiff = compareLines(sb, br1, br2);
 		}
 		finally {
 			br1.close();
 			br2.close();
 		}
-		return result ;
+		return new ComparisonResult(nbDiff, sb.toString()) ;
 	}
 
 	private int compareLines(StringBuilder sb, BufferedReader br1, BufferedReader br2) throws IOException {

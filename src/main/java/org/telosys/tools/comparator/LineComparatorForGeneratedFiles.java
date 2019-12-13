@@ -1,4 +1,4 @@
-package org.telosys.tools.nrt;
+package org.telosys.tools.comparator;
 
 import java.util.regex.Pattern;
 

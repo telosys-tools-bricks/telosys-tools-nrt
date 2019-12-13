@@ -8,6 +8,9 @@ import org.telosys.tools.commons.DirUtil;
 import org.telosys.tools.commons.FileUtil;
 import org.telosys.tools.commons.TelosysToolsException;
 import org.telosys.tools.commons.cfg.TelosysToolsCfg;
+import org.telosys.tools.comparator.ComparisonResult;
+import org.telosys.tools.comparator.FileComparator;
+import org.telosys.tools.comparator.LineComparatorForGeneratedFiles;
 import org.telosys.tools.generator.task.GenerationTaskResult;
 import org.telosys.tools.generic.model.Model;
 
@@ -48,11 +51,11 @@ public class TelosysGeneratorNRT {
 		logDebug("Model loaded : " + model.getEntities().size() + " entities");
 		
 		logDebug("Launching generation for bundle ");
-		GenerationTaskResult result = telosysProject.launchGeneration(model, bundleName);
-		if ( result.getNumberOfGenerationErrors() > 0 ) {
-			throw new RuntimeException("ERROR DURING GENERATION TASK : " + result.getNumberOfGenerationErrors() );
+		GenerationTaskResult genResult = telosysProject.launchGeneration(model, bundleName);
+		if ( genResult.getNumberOfGenerationErrors() > 0 ) {
+			throw new RuntimeException("ERROR DURING GENERATION TASK : " + genResult.getNumberOfGenerationErrors() );
 		}
-		logDebug("Normal end of generation : " + result.getNumberOfFilesGenerated() + " files generated");
+		logDebug("Normal end of generation : " + genResult.getNumberOfFilesGenerated() + " files generated");
 		
 		List<String> files = DirUtil.getDirectoryFiles(destinationFolder, true);
 		logDebug(files.size() + " file(s) found in the directory ");
@@ -65,7 +68,8 @@ public class TelosysGeneratorNRT {
 			String referenceFileName = FileUtil.buildFilePath(telosysToolsCfg.getProjectAbsolutePath(), relativeFileName);
 			logDebug(" . " + referenceFileName );
 			StringBuilder sb = new StringBuilder();
-			int differences = compare(referenceFileName, generatedFileName, sb) ;
+			ComparisonResult result = compare(referenceFileName, generatedFileName) ;
+			int differences = result.getDiffCount();
 			if ( differences != 0 ) {
 				logInfo(" . " + generatedFileName + " : " + differences + " difference(s)");
 				logInfo(sb.toString());
@@ -82,12 +86,13 @@ public class TelosysGeneratorNRT {
 		return FileUtil.buildFilePath(telosysProject.getProjectFolder(), generatedFilesSubFolder);
 	}
 
-	private int compare(String refFileName, String newFileName, StringBuilder sb) {
+	private ComparisonResult compare(String refFileName, String newFileName) {
 		LineComparatorForGeneratedFiles lineComparator = new LineComparatorForGeneratedFiles();
-		FileComparator fileComparator = new FileComparator(
-				new File(refFileName), new File(newFileName), lineComparator);
-		int result = fileComparator.compare(sb) ;
-		if ( result != 0 ) {
+//		FileComparator fileComparator = new FileComparator(
+//				new File(refFileName), new File(newFileName), lineComparator);
+		FileComparator fileComparator = new FileComparator(lineComparator);
+		ComparisonResult result = fileComparator.compare(new File(refFileName), new File(newFileName)) ;
+		if ( result.getDiffCount() != 0 ) {
 			logDebug("DIFFERENT : ");
 		}
 		else {

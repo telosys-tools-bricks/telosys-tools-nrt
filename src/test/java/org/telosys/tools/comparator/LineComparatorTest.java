@@ -1,8 +1,10 @@
-package org.telosys.tools.nrt;
+package org.telosys.tools.comparator;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.telosys.tools.comparator.LineComparator;
+import org.telosys.tools.comparator.LineComparatorForGeneratedFiles;
 
 import static org.junit.Assert.*;
 

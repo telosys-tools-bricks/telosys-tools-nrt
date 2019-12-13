@@ -1,14 +1,16 @@
-package org.telosys.tools.nrt;
+package org.telosys.tools.comparator;
 
 import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.telosys.tools.comparator.FileComparator;
+import org.telosys.tools.comparator.LineComparatorForGeneratedFiles;
 
 import static org.junit.Assert.*;
 
-import junit.tests.util.nrt.TestsEnv;
+import junit.tests.util.TestsEnv;
 
 public class FileComparatorTest {
 
@@ -29,13 +31,16 @@ public class FileComparatorTest {
 		System.out.println("Comparing " + fileName1 + " and " + fileName2 );
 		
 		LineComparatorForGeneratedFiles lineComparator = new LineComparatorForGeneratedFiles();
-		FileComparator fc = new FileComparator( getResourceFile(fileName1) , getResourceFile(fileName2), lineComparator );
+//		FileComparator fc = new FileComparator( getResourceFile(fileName1) , getResourceFile(fileName2), lineComparator );
+		FileComparator fc = new FileComparator( lineComparator );
 
-		StringBuilder sb = new StringBuilder();
-		int r = fc.compare(sb);
-		System.out.println(  r == 0 ? "Identical" : "Different" ) ;
-		System.out.println(sb);
-		assertEquals(nbDiff, r);
+//		StringBuilder sb = new StringBuilder();
+		File file1 = getResourceFile(fileName1);
+		File file2 = getResourceFile(fileName2);
+		ComparisonResult result = fc.compare(file1, file2);
+		System.out.println(result.getDiffCount() == 0 ? "Identical" : "Different" ) ;
+		System.out.println(result.getReport());
+		assertEquals(nbDiff, result.getDiffCount());
 	}
 
 	@Test

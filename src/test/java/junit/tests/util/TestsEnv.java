@@ -1,4 +1,4 @@
-package junit.tests.util.nrt;
+package junit.tests.util;
 
 import java.io.File;
 

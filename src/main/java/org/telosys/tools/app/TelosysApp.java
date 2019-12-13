@@ -8,10 +8,11 @@ import org.telosys.tools.commons.DirUtil;
 import org.telosys.tools.commons.FileUtil;
 import org.telosys.tools.commons.TelosysToolsException;
 import org.telosys.tools.commons.cfg.TelosysToolsCfg;
+import org.telosys.tools.comparator.ComparisonResult;
+import org.telosys.tools.comparator.FileComparator;
+import org.telosys.tools.comparator.LineComparatorForGeneratedFiles;
 import org.telosys.tools.generator.task.GenerationTaskResult;
 import org.telosys.tools.generic.model.Model;
-import org.telosys.tools.nrt.FileComparator;
-import org.telosys.tools.nrt.LineComparatorForGeneratedFiles;
 
 public class TelosysApp {
 	
@@ -27,10 +28,13 @@ public class TelosysApp {
 	
 	private static void compare(String refFileName, String newFileName) {
 		LineComparatorForGeneratedFiles lineComparator = new LineComparatorForGeneratedFiles();
-		FileComparator fileComparator = new FileComparator(
-				new File(refFileName), new File(newFileName), lineComparator);
+//		FileComparator fileComparator = new FileComparator(
+//				new File(refFileName), new File(newFileName), lineComparator);
+		FileComparator fileComparator = new FileComparator(lineComparator);
 		StringBuilder sb = new StringBuilder();
-		if ( fileComparator.compare(sb) != 0 ) {
+//		if ( fileComparator.compare(sb) != 0 ) {
+		ComparisonResult result = fileComparator.compare(new File(refFileName), new File(newFileName));
+		if ( result.getDiffCount() != 0 ) {
 			System.out.println("DIFFERENT : ");
 			System.out.println(sb);
 		}
